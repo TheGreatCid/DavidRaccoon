@@ -1,0 +1,12 @@
+[Tests]
+  [./transform_generator_test]
+    type = 'Exodiff'
+    input = 'rotate_and_scale.i'
+    exodiff = 'rotate_and_scale_out.e'
+    requirement = "The system shall include the ability to rotate and scale a finite element mesh."
+    design = 'meshgenerators/TransformGenerator.md'
+    issues = '#11640'
+    mesh_mode = 'REPLICATED'
+    recover = false
+  [../]
+[]

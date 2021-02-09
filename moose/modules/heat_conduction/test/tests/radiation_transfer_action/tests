@@ -1,0 +1,40 @@
+[Tests]
+  issues = '#13918'
+  design = 'RadiationTransferAction.md'
+  [./radiative_transfer_action]
+    type = 'Exodiff'
+    input = 'radiative_transfer_action.i'
+    exodiff = 'radiative_transfer_action_out.e'
+    requirement = 'The system shall provide an action to set up radiative heat transfer problems using the net radiation method'
+    petsc_version = '>=3.9.4'
+  [../]
+
+  [./radiative_transfer_action_bnd_names]
+    type = 'Exodiff'
+    input = 'radiative_transfer_action.i'
+    exodiff = 'radiative_transfer_action_out_bnd_names.e'
+    cli_args = 'GrayDiffuseRadiation/cavity/boundary="inner_bottom 5 inner_right inner_top"
+                GrayDiffuseRadiation/cavity/adiabatic_boundary="inner_top"
+                GrayDiffuseRadiation/cavity/fixed_temperature_boundary="inner_bottom"
+                Outputs/file_base=radiative_transfer_action_out_bnd_names'
+    requirement = 'The system shall allow specifying boundary names and ids in the radiative heat transfer action'
+    issues = '#15843'
+    petsc_version = '>=3.9.4'
+  [../]
+
+  [./radiative_transfer_no_action]
+    type = 'Exodiff'
+    input = 'radiative_transfer_no_action.i'
+    exodiff = 'radiative_transfer_no_action_out.e'
+    requirement = 'The system shall provide an action to set up radiative heat transfer problems using the net radiation method'
+    petsc_version = '>=3.9.4'
+  [../]
+
+  [./radiative_transfer_action_external_boundary]
+    type = 'Exodiff'
+    input = 'radiative_transfer_action_external_boundary.i'
+    exodiff = 'radiative_transfer_action_external_boundary_out.e'
+    requirement = 'The system shall provide an action to set up radiative heat transfer problems using the net radiation method'
+    petsc_version = '>=3.9.4'
+  [../]
+[]

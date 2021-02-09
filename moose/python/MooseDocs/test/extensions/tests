@@ -1,0 +1,68 @@
+[Tests]
+  [all]
+    design = 'MooseDocs/index.md'
+    issues = '#6699 #9638 #12049 #13567 #13611 #15232 #15927'
+
+    requirement = "The system shall include documentation tools that provide support for"
+    [core]
+      type = PythonUnitTest
+      input = test_core.py
+      detail = "markdown-like syntax,"
+    []
+    [special]
+      type = PythonUnitTest
+      input = test_special.py
+      detail = "special characters,"
+    []
+    [comment]
+      type = PythonUnitTest
+      input = test_comment.py
+      detail = "comments within markdown syntax,"
+    []
+    [acronym]
+      type = PythonUnitTest
+      input = test_acronym.py
+      detail = "acronyms within markdown syntax,"
+    []
+    [sqa]
+      type = PythonUnitTest
+      input = test_sqa.py
+      detail = "building software quality documents,"
+    []
+    [autolink]
+      type = PythonUnitTest
+      input = test_autolink.py
+      detail = "automatically cross-linking files,"
+    []
+    [civet]
+      type = PythonUnitTest
+      input = test_civet.py
+      detail = "linking to continuous integration testing results,"
+    []
+    [content]
+      type = PythonUnitTest
+      input = test_content.py
+      detail = "listing and linking to content within and across documents,"
+    []
+    [appsyntax]
+      type = PythonUnitTest
+      input = test_appsyntax.py
+      detail = "automatically retrieving application syntax,"
+    []
+    [alert]
+      type = PythonUnitTest
+      input = test_alert.py
+      detail = "creating alert text boxes,"
+    []
+    [media]
+      type = PythonUnitTest
+      input = test_media.py
+      detail = "displaying images and videos, and"
+    []
+    [gallery]
+      type = PythonUnitTest
+      input = test_gallery.py
+      detail = "displaying image galleries."
+    []
+  []
+[]

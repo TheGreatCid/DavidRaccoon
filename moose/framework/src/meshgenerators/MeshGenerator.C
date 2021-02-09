@@ -1,0 +1,77 @@
+//* This file is part of the MOOSE framework
+//* https://www.mooseframework.org
+//*
+//* All rights reserved, see COPYRIGHT for full restrictions
+//* https://github.com/idaholab/moose/blob/master/COPYRIGHT
+//*
+//* Licensed under LGPL 2.1, please see LICENSE for details
+//* https://www.gnu.org/licenses/lgpl-2.1.html
+
+#include "MeshGenerator.h"
+#include "MooseMesh.h"
+#include "MooseApp.h"
+
+defineLegacyParams(MeshGenerator);
+
+InputParameters
+MeshGenerator::validParams()
+{
+  InputParameters params = MooseObject::validParams();
+
+  params.registerBase("MeshGenerator");
+  return params;
+}
+
+MeshGenerator::MeshGenerator(const InputParameters & parameters)
+  : MooseObject(parameters), MeshMetaDataInterface(this), _mesh(_app.actionWarehouse().mesh())
+{
+}
+
+std::unique_ptr<MeshBase> &
+MeshGenerator::getMesh(const std::string & input_mesh_generator_parameter_name)
+{
+  if (isParamValid(input_mesh_generator_parameter_name))
+  {
+    auto name = getParam<MeshGeneratorName>(input_mesh_generator_parameter_name);
+
+    _depends_on.push_back(name);
+
+    return _app.getMeshGeneratorOutput(name);
+  }
+  else
+    return _null_mesh;
+}
+
+std::unique_ptr<MeshBase> &
+MeshGenerator::getMeshByName(const MeshGeneratorName & input_mesh_generator)
+{
+  _depends_on.push_back(input_mesh_generator);
+  return _app.getMeshGeneratorOutput(input_mesh_generator);
+}
+
+std::unique_ptr<MeshBase>
+MeshGenerator::buildMeshBaseObject(unsigned int dim)
+{
+  if (!_mesh)
+    mooseError("We need a MooseMesh object in order to build ReplicatedMesh objects through the "
+               "buildReplicatedMesh API");
+  return _mesh->buildMeshBaseObject(dim);
+}
+
+std::unique_ptr<ReplicatedMesh>
+MeshGenerator::buildReplicatedMesh(unsigned int dim)
+{
+  if (!_mesh)
+    mooseError("We need a MooseMesh object in order to build ReplicatedMesh objects through the "
+               "buildReplicatedMesh API");
+  return _mesh->buildTypedMesh<ReplicatedMesh>(dim);
+}
+
+std::unique_ptr<DistributedMesh>
+MeshGenerator::buildDistributedMesh(unsigned int dim)
+{
+  if (!_mesh)
+    mooseError("We need a MooseMesh object in order to build DistributedMesh objects through the "
+               "buildDistributedMesh API");
+  return _mesh->buildTypedMesh<DistributedMesh>(dim);
+}

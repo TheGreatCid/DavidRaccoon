@@ -1,0 +1,8 @@
+directories:
+    - ${MOOSE_DIR}/modules/heat_conduction/test/tests
+specs:
+    - tests
+dependencies:
+    - framework
+repo: moose
+reports: !include ${MOOSE_DIR}/modules/heat_conduction/doc/sqa_reports.yml
